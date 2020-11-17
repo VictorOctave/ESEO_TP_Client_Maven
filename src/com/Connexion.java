@@ -3,6 +3,7 @@ package com;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,41 +21,37 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
-/**
- * Servlet implementation class HelloWorld
- */
-@WebServlet("/HelloWorld")
-public class HelloWorld extends HttpServlet {
+@WebServlet("/Connexion")
+public class Connexion extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public HelloWorld() {
+    public Connexion() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
 		HttpResponse<JsonNode> reponse;
 		ArrayList<Ville> villes = new ArrayList<>();
 		try {
 			reponse = Unirest.get("http://localhost:8181/ville").asJson();
 			JsonArray jArray = JsonParser.parseString(reponse.getBody().toString()).getAsJsonArray();
-			villes = this.tabToVille(jArray);
+			villes = this.jsonToArrayList(jArray);
 		} catch (UnirestException e) {
 			e.printStackTrace();
 		}
-		response.getWriter().append(villes.toString());
+		session.setAttribute("villes", villes);
+		RequestDispatcher req = request.getRequestDispatcher("ChoixVilles.jsp");
+		req.forward(request, response);
 	}
 	
-	private ArrayList<Ville> tabToVille(JsonArray tab) {
+	private ArrayList<Ville> jsonToArrayList(JsonArray tab) {
 		final Gson gson = new GsonBuilder().create();
 		ArrayList<Ville> villes = new ArrayList<>();
 
-		// Itération autour du tableau de données
 		for (JsonElement element : tab) {
 			villes.add(gson.fromJson(element, Ville.class));
 		}
