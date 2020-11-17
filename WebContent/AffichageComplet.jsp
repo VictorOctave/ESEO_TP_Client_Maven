@@ -19,12 +19,6 @@
 					pages = 2;
 				}%>
 				<%=pages - 1%>">Previous</a></li>
-			<li class="page-item"><a class="page-link"
-				href="affichage?page=1">1</a></li>
-			<li class="page-item"><a class="page-link"
-				href="affichage?page=2">2</a></li>
-			<li class="page-item"><a class="page-link"
-				href="affichage?page=3">3</a></li>
 			<li class="page-item"><a class="page-link" href="affichage?page=
 				<%Integer pagesS = (Integer) request.getAttribute("numPage");%>
 				<%=pagesS + 1%>">Next</a></li>
@@ -35,20 +29,19 @@
 				<h1 class="font-weight-light">Liste des villes :</h1>
 				<br>
 				<div style="height: 2500px">
-					<FORM method="post" action="modification">
-						<%
-							ArrayList<Ville> liste2 = (ArrayList) request.getAttribute("villesPage");
-						for (Ville ville : liste2) {
-						%>
-						<%=ville.getNomCommune()%>
-						<a href="modification?ville=<%=ville.getNomCommune()%>">modifier</a>
-						<a href="suppression?ville=<%=ville.getNomCommune()%>">supprimer</a><br>
-						<br>
-						<%
-							}
-						%>
+					<%
+					@SuppressWarnings("unchecked")
+					ArrayList<Ville> liste2 = (ArrayList<Ville>) request.getAttribute("villesPage");
+					for (Ville ville : liste2) {
+					%>
+					<%=ville.getNomCommune()%>
+					<a href="Modification?ville=<%=ville.getNomCommune()%>">Modifier</a>
+					<a href="Suppression?ville=<%=ville.getNomCommune()%>">Supprimer</a><br>
+					<br>
+					<%
+						}
+					%>
 
-					</FORM>
 				</div>
 			</div>
 		</div>
