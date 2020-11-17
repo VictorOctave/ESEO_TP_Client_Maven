@@ -20,6 +20,7 @@
 						<div class="panel-body">
 							<FORM method="post" action="Calcul">
 								<fieldset>
+									<legend>Villes</legend>
 									<div class="form-group">
 
 										<SELECT name="ville1" size="1">
@@ -53,7 +54,7 @@
 								</fieldset>
 							</FORM>
 							<br>
-							<a href="afficheVille"> Afficher des informations sur les villes </a><br>
+							<a href="affichage"> Afficher des informations sur les villes </a><br>
 						</div>
 					</div>
 				</div>
