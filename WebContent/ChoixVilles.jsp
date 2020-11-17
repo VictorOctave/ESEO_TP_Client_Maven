@@ -47,7 +47,10 @@
 													}
 												%>
 											
-										</SELECT> <br> <br> <input
+										</SELECT> <br> <br> 
+										<input type="checkbox" value="Meteo" name="meteo">
+										Voir aussi la météo dans les villes sélectionnées <br><br>
+										<input
 											class="btn btn-lg btn-primary btn-block" type="submit"
 											value="Calcul de la distance" name="action">
 									</div>

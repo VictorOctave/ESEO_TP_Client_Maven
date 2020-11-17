@@ -12,6 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
+
 @WebServlet("/Calcul")
 public class CalculDistance extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -48,8 +56,47 @@ public class CalculDistance extends HttpServlet {
 		session.setAttribute("ville1", nomVille1);
 		session.setAttribute("ville2", nomVille2);
 		session.setAttribute("distance", df.format(distance));
-		RequestDispatcher req = request.getRequestDispatcher("ResultatDistance.jsp");
-		req.forward(request, response);
+		
+		if (request.getParameter("meteo") == null) {
+			RequestDispatcher req = request.getRequestDispatcher("ResultatDistance.jsp");
+			req.forward(request, response);
+		} else {
+			HttpResponse<JsonNode> reponse1;
+			HttpResponse<JsonNode> reponse2;
+			String url1 = "http://api.openweathermap.org/data/2.5/weather?APPID=9be37396dcf68905f8b3a49af8b41d6e&lat="
+					+ ville1.getLatitude() + "&lon=" + ville1.getLongitude() + "";
+			String url2 = "http://api.openweathermap.org/data/2.5/weather?APPID=9be37396dcf68905f8b3a49af8b41d6e&lat="
+					+ ville2.getLatitude() + "&lon=" + ville2.getLongitude() + "";
+			try {
+				reponse1 = Unirest.get(url1).asJson();
+				reponse2 = Unirest.get(url2).asJson();
+				
+				JsonElement jArray1 = JsonParser.parseString(reponse1.getBody().toString());
+				JsonElement jArray2 = JsonParser.parseString(reponse2.getBody().toString());
+				
+				JsonObject rootObject1 = jArray1.getAsJsonObject();
+				JsonObject rootObject2 = jArray2.getAsJsonObject();
+				
+				String tempFVille1 = rootObject1.getAsJsonObject("main").get("temp").toString();
+				String tempFVille2 = rootObject2.getAsJsonObject("main").get("temp").toString();
+				
+				double tempCVille1 = Double.parseDouble(tempFVille1) - 273.15;
+				double tempCVille2 = Double.parseDouble(tempFVille2) - 273.15;
+				
+				session.setAttribute("meteoVille1", df.format(tempCVille1));
+				session.setAttribute("meteoVille2", df.format(tempCVille2));
+
+			} catch (UnirestException e) {
+				e.printStackTrace();
+			}
+			session.setAttribute("villes", villes);
+
+			RequestDispatcher req = request.getRequestDispatcher("ResultatDistanceEtMeteo.jsp");
+			req.forward(request, response);
+		}
+		
+		
+		
 	}
 	
 	public double calcul(Ville ville1, Ville ville2) {
