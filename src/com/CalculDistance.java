@@ -85,6 +85,15 @@ public class CalculDistance extends HttpServlet {
 				
 				session.setAttribute("meteoVille1", df.format(tempCVille1));
 				session.setAttribute("meteoVille2", df.format(tempCVille2));
+				
+				String imageVille1 = rootObject1.getAsJsonArray("weather").get(0).getAsJsonObject().get("icon").toString().split("\"")[1];
+				String imageVille2 = rootObject2.getAsJsonArray("weather").get(0).getAsJsonObject().get("icon").toString().split("\"")[1];
+				
+				String urlImage1 = "http://openweathermap.org/img/wn/"+imageVille1+".png";
+				String urlImage2 = "http://openweathermap.org/img/wn/"+imageVille2+".png";
+				
+				session.setAttribute("imageMeteo1", urlImage1);
+				session.setAttribute("imageMeteo2", urlImage2);
 
 			} catch (UnirestException e) {
 				e.printStackTrace();

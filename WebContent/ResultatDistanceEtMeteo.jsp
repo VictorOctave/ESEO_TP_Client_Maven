@@ -27,12 +27,16 @@
 						La température à
 						<%=session.getAttribute("ville1")%>
 						est de
-						<%=session.getAttribute("meteoVille1")%>
-						°C. <br><br> La température à
+						<%=session.getAttribute("meteoVille1")%>°C. 
+						<img src=<%=session.getAttribute("imageMeteo1")%> 
+						alt="Problème d'affichage de l'image"/><br><br> 
+						La température à
 						<%=session.getAttribute("ville2")%>
 						est de
-						<%=session.getAttribute("meteoVille2")%>°C.<br><br><br>
-						<a href=ChoixVilles.jsp>Relancer un calcul</a>
+						<%=session.getAttribute("meteoVille2")%>°C. 
+						<img src=<%=session.getAttribute("imageMeteo2")%> 
+						alt="Problème d'affichage de l'image"/><br><br><br>
+						<a href=ChoixVilles.jsp>Revenir à l'accueil</a>
 					</p>
 				</div>
 			</div>

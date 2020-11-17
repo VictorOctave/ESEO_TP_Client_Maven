@@ -11,6 +11,7 @@
 <body>
 	<div class="container">
 		<nav aria-label="Page navigation example">
+		<a href=ChoixVilles.jsp>Revenir à l'accueil</a><br><br>
 		<ul class="pagination">
 			<li class="page-item"><a class="page-link"
 				href="affichage?page=

@@ -19,7 +19,7 @@
 						<%=session.getAttribute("ville2")%>
 						est de
 						<%=session.getAttribute("distance")%>
-						km. <br><br><a href=ChoixVilles.jsp>Relancer un calcul </a><br>
+						km. <br><br><a href=ChoixVilles.jsp>Revenir à l'accueil</a><br>
 					</p>
 
 				</div>
